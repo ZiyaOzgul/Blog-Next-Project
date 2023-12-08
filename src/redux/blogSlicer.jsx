@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
 const getInitialStateFromLocalStorage = () => {
-  const storedState = localStorage.getItem("user");
+  const storedState = localStorage.getItem("blog-user");
   return storedState ? JSON.parse(storedState) : [];
 };
 
@@ -14,8 +14,8 @@ export const blogSlice = createSlice({
     componentLevelLoader: { loading: false, id: "" },
     pageLevelLoader: false,
 
-    user: Cookies.get("token") ? getInitialStateFromLocalStorage() : [], // Change !== 0 to ??
-    isLogged: Cookies.get("token") ? true : false,
+    user: Cookies.get("blog-token") ? getInitialStateFromLocalStorage() : [], // Change !== 0 to ??
+    isLogged: Cookies.get("blog-token") ? true : false,
     posts: [],
     currentPost: [],
 
@@ -56,7 +56,6 @@ export const blogSlice = createSlice({
     resetLoggedUser: (state, action) => {
       state.isLogged = false;
       state.user = [];
-      console.log(Cookies.get("token"));
     },
     setUserLog: (state, action) => {
       state.isLogged = action.payload;

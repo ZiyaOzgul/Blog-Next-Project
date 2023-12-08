@@ -64,8 +64,8 @@ const RegisterPage = () => {
 
       dispatch(setLoggedUser(req.data.user));
       dispatch(setUserLog(true));
-      Cookies.set("token", req.data.token);
-      localStorage.setItem("user", JSON.stringify(req.data.user));
+      Cookies.set("blog-token", req.data.token);
+      localStorage.setItem("blog-user", JSON.stringify(req.data.user));
       setTimeout(() => {
         router.push("/");
       }, 1000);

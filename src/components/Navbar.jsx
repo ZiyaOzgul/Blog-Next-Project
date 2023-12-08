@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import Notification from "./notification/Notification";
@@ -9,11 +9,13 @@ import { resetLoggedUser } from "@/redux/blogSlicer";
 import Cookies from "js-cookie";
 import ComponentLevelLoader from "./componentLevelLoader/ComponentLevelLoader";
 import { toast } from "react-toastify";
+import { PencilIcon } from "@heroicons/react/24/solid";
 
 const Navbar = () => {
   const [currentPage, setCurrentPage] = useState();
   const pathName = usePathname();
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const currentUser = useSelector((state) => state.blog.user);
   const userLog = useSelector((state) => state.blog.isLogged);
@@ -24,8 +26,8 @@ const Navbar = () => {
   }, [pathName]);
 
   const handleLogOut = () => {
-    Cookies.remove("token");
-    localStorage.removeItem("user");
+    Cookies.remove("blog-token");
+    localStorage.removeItem("blog-user");
     dispatch(resetLoggedUser());
     console.log(userLog, "user length ->");
     if (!userLog) {
@@ -104,26 +106,39 @@ const Navbar = () => {
             </div>
           )} */}
           {userLog ? (
-            <div className="flex flex-1 items-center justify-center sm:space-x-4">
-              <div className="flex items-start justify-center sm:space-x-2 cursor-pointer group">
-                <PersonIcon className="text-xl" />
-                <p className="font-medium text-lg">{currentUser.name}</p>
-              </div>
-              <div>
-                <button
-                  onClick={() => handleLogOut()}
-                  className="w-full h-full border bg-purple-50 border-purple-700 hover:border-purple-600 hover:bg-purple-600 transition-all ease-in-out duration-300 flex items-center justify-center group py-2 px-4 text-purple-600 hover:text-white  "
+            <div className="flex flex-1 items-center justify-end">
+              <div className="w-8/12 flex items-center justify-between sm:space-x-4">
+                <div className="flex items-center justify-center sm:space-x-2 cursor-pointer group">
+                  <PersonIcon className="text-xl" />
+                  <p className="font-medium text-lg">{currentUser.name}</p>
+                </div>
+
+                <div
+                  className="flex items-center justify-center space-x-2 border border-purple-400/30 p-2 rounded-lg group hover:border-purple-400  hover:bg-purple-500 hover:text-white hover:shadow-xl shadow-purple-300 transition-all ease-in duration-300 cursor-pointer  "
+                  onClick={() => router.push("/add-note")}
                 >
-                  {Loader && Loader.loading ? (
-                    <ComponentLevelLoader
-                      text={"Logging Out"}
-                      color={"#fff"}
-                      loading={Loader && Loader.loading}
-                    />
-                  ) : (
-                    "Log Out"
-                  )}
-                </button>
+                  <PencilIcon className="w-6 h-6 text-sm group-hover:scale-110 ease-in duration-300" />
+                  <p className="font-medium text-sm group-hover:translate-x-1 ease-in duration-300">
+                    Add Note
+                  </p>
+                </div>
+
+                <div className="md:ml-20">
+                  <button
+                    onClick={() => handleLogOut()}
+                    className="w-full h-full border bg-purple-50 border-purple-700 hover:border-purple-600 hover:bg-purple-600 transition-all ease-in-out duration-300 flex items-center justify-center group py-2 px-4 text-purple-600 hover:text-white  "
+                  >
+                    {Loader && Loader.loading ? (
+                      <ComponentLevelLoader
+                        text={"Logging Out"}
+                        color={"#fff"}
+                        loading={Loader && Loader.loading}
+                      />
+                    ) : (
+                      "Log Out"
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           ) : (
