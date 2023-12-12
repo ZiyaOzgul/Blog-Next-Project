@@ -15,7 +15,7 @@ import ComponentLevelLoader from "@/components/componentLevelLoader/ComponentLev
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
+  const router = typeof window !== "undefined" ? useRouter() : null;
   const Loader = useSelector((state) => state.blog.componentLevelLoader);
   const currentUser = useSelector((state) => state.blog.user);
 

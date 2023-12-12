@@ -51,7 +51,7 @@ export async function POST(req) {
         role: validateUser.role,
       },
       "default_secret_key",
-      { expiresIn: "1d" }
+      { expiresIn: 1200 }
     );
     const finalResult = {
       token,

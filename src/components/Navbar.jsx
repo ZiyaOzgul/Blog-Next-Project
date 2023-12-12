@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -13,10 +14,11 @@ import { PencilIcon } from "@heroicons/react/24/solid";
 
 const Navbar = () => {
   const [currentPage, setCurrentPage] = useState();
-  const pathName = usePathname();
-  const dispatch = useDispatch();
-  const router = useRouter();
 
+  const dispatch = useDispatch();
+
+  const pathName = typeof window !== "undefined" ? usePathname() : null;
+  const router = typeof window !== "undefined" ? useRouter() : null;
   const currentUser = useSelector((state) => state.blog.user);
   const userLog = useSelector((state) => state.blog.isLogged);
   const Loader = useSelector((state) => state.blog.componentLevelLoader);
@@ -107,28 +109,34 @@ const Navbar = () => {
           )} */}
           {userLog ? (
             <div className="flex flex-1 items-center justify-end">
-              <div className="w-8/12 flex items-center justify-between sm:space-x-4">
-                <div className="flex items-center justify-center sm:space-x-2 cursor-pointer group">
-                  <PersonIcon className="text-xl" />
-                  <p className="font-medium text-lg">{currentUser.name}</p>
-                </div>
-
+              <div className="w-8/12 flex items-center justify-center sm:space-x-6">
                 <div
                   className="flex items-center justify-center space-x-2 border border-purple-400/30 p-2 rounded-lg group hover:border-purple-400  hover:bg-purple-500 hover:text-white hover:shadow-xl shadow-purple-300 transition-all ease-in duration-300 cursor-pointer  "
                   onClick={() => router.push("/add-note")}
                 >
                   <PencilIcon className="w-6 h-6 text-sm group-hover:scale-110 ease-in duration-300" />
                   <p className="font-medium text-sm group-hover:translate-x-1 ease-in duration-300">
-                    Add Note
+                    Add Post
                   </p>
                 </div>
+                <div className="h-auto flex flex-col items-center justify-center group ">
+                  <div className="flex items-center justify-center sm:space-x-2 cursor-pointer group relative">
+                    <PersonIcon className="text-xl" />
+                    <p className="font-medium text-lg">{currentUser.name}</p>
+                  </div>
+                  {/* <div className="opacity-0 group-hover:opacity-100 mt-4  w-full h-15v  flex flex-col items-start justify-start space-y-1 z-10">
+                    <button className="w-full h-5v bg-gray-100 border-none hover:bg-purple-500 hover:border border-purple-400 hover:text-white hover:shadow-md shadow-purple-300 transition-all ease-in duration-300">
+                      Log out
+                    </button>
+                  </div> */}
+                </div>
 
-                <div className="md:ml-20">
+                {/* <div className="md:ml-20">
                   <button
                     onClick={() => handleLogOut()}
                     className="w-full h-full border bg-purple-50 border-purple-700 hover:border-purple-600 hover:bg-purple-600 transition-all ease-in-out duration-300 flex items-center justify-center group py-2 px-4 text-purple-600 hover:text-white  "
                   >
-                    {Loader && Loader.loading ? (
+                    {Loader && Loader.loading && Loading.type == 'logout' ? (
                       <ComponentLevelLoader
                         text={"Logging Out"}
                         color={"#fff"}
@@ -138,7 +146,7 @@ const Navbar = () => {
                       "Log Out"
                     )}
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           ) : (

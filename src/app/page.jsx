@@ -1,10 +1,33 @@
 "use client";
-import React from "react";
-import { useSelector } from "react-redux";
+
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import PostCard from "@/components/PostCard";
+import { getAllPostsAsync } from "@/services/posts";
+import { toast } from "react-toastify";
+import { setAllPosts } from "@/redux/blogSlicer";
 const Home = () => {
+  const dispatch = useDispatch();
   const Loader = useSelector((state) => state.blog.componentLevelLoader);
-  const Repeat = useSelector((state) => state.blog.repeatItems);
+
+  const allPosts = useSelector((state) => state.blog.posts);
+
+  useEffect(() => {
+    handleGetAllPosts();
+  }, []);
+
+  const handleGetAllPosts = async () => {
+    const getAllPostsReq = await getAllPostsAsync();
+    if (getAllPostsReq.success) {
+      console.log(getAllPostsReq.data);
+      dispatch(setAllPosts(getAllPostsReq.data));
+    } else {
+      toast.error(getAllPostsReq.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  };
 
   return (
     <div className="w-full h-auto flex flex-col items-center justify-start mt-4">
@@ -36,36 +59,8 @@ const Home = () => {
           Recent blog posts
         </h1>
         <div className="w-9/12 h-auto p-6 grid grid-cols-3 gap-3  mt-4">
-          {Repeat.map((item, index) => (
-            <div
-              className="w-3/4 h-45v flex flex-col items-start justify-start space-y-2 hover:shadow-lg shadow-gray-400 ease-in-out duration-300 rounded-xl cursor-pointer "
-              key={index}
-            >
-              <img
-                src="https://assets-global.website-files.com/6467d96400e84f307e2196ef/6467d96400e84f307e21a8d7_Best%20Photography%20Blogs%20-%20Wrapbook%20-%20We%20Eat%20Together.jpeg"
-                alt=""
-                className="w-full h-25v rounded-2xl p-1"
-              />
-              <div className="w-full h-20v flex flex-col items-start justify-start p-1 space-y-6 ">
-                <h1 className="text-3xl text-semibold text-neutral-900 px-1">
-                  Linear 101
-                </h1>
-                <p className="text-sm px-1">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab,
-                  corrupti!
-                </p>
-                <div className="flex items-center justify-center md:space-x-3 px-1">
-                  <img
-                    src="https://imgs.search.brave.com/BbT4YBOEdGKbwvMFyV7Qg37YCw7HDRNLEaLepM1KdxE/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/ZnJlZS1waG90by9z/bWlsaW5nLWNhdWNh/c2lhbi1ndXktd2l0/aC1iZWFyZC1sb29r/aW5nLWhhcHB5XzE3/NjQyMC0xODcwNy5q/cGc_c2l6ZT02MjYm/ZXh0PWpwZw"
-                    alt=""
-                    className="w-8 h-8 object-cover rounded-full"
-                  />
-                  <p className="text-lg">
-                    Eve Wilkins <i className="text-4xl">.</i> 19 Jan 2023
-                  </p>
-                </div>
-              </div>
-            </div>
+          {allPosts.map((item) => (
+            <PostCard item={item} />
           ))}
         </div>
       </div>

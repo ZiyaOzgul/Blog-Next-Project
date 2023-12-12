@@ -8,6 +8,7 @@ module.exports = {
   theme: {
     extend: {
       height: {
+        "5v": "5vh",
         "10v": "10vh",
         "15v": "15vh",
         "20v": "20vh",

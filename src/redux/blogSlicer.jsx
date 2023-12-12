@@ -11,7 +11,7 @@ const getInitialStateFromLocalStorage = () => {
 export const blogSlice = createSlice({
   name: "blog",
   initialState: {
-    componentLevelLoader: { loading: false, id: "" },
+    componentLevelLoader: { loading: false, id: "", type: "" },
     pageLevelLoader: false,
 
     user: Cookies.get("blog-token") ? getInitialStateFromLocalStorage() : [], // Change !== 0 to ??
@@ -20,31 +20,12 @@ export const blogSlice = createSlice({
     currentPost: [],
 
     //delete
-    repeatItems: [
-      {
-        id: 1,
-      },
-      {
-        id: 1,
-      },
-      {
-        id: 1,
-      },
-      {
-        id: 1,
-      },
-      {
-        id: 1,
-      },
-      {
-        id: 1,
-      },
-    ],
   },
   reducers: {
     setComponentLevelLoader: (state, action) => {
       state.componentLevelLoader.loading = action.payload.loading;
       state.componentLevelLoader.id = action.payload.id;
+      state.componentLevelLoader.type = action.payload.type;
     },
     setPageLevelLoading: (state, action) => {
       state.pageLevelLoader = action.payload;
@@ -60,6 +41,12 @@ export const blogSlice = createSlice({
     setUserLog: (state, action) => {
       state.isLogged = action.payload;
     },
+    setAllPosts: (state, action) => {
+      state.posts = action.payload;
+    },
+    setCurrentPost: (state, action) => {
+      state.currentPost = action.payload;
+    },
   },
 });
 
@@ -69,5 +56,7 @@ export const {
   setLoggedUser,
   resetLoggedUser,
   setUserLog,
+  setAllPosts,
+  setCurrentPost,
 } = blogSlice.actions;
 export default blogSlice.reducer;
