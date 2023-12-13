@@ -3,10 +3,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import PostCard from "@/components/PostCard";
-import { getAllPostsAsync } from "@/services/posts";
+import PostCard from "../components/PostCard";
+import { getAllPostsAsync } from "../services/posts";
 import { toast } from "react-toastify";
-import { setAllPosts } from "@/redux/blogSlicer";
+import { setAllPosts } from "../redux/blogSlicer";
 const Home = () => {
   const dispatch = useDispatch();
   const Loader = useSelector((state) => state.blog.componentLevelLoader);
