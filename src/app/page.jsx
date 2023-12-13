@@ -15,6 +15,7 @@ const Home = () => {
 
   useEffect(() => {
     handleGetAllPosts();
+    console.log("Load all posts");
   }, []);
 
   const handleGetAllPosts = async () => {
@@ -60,7 +61,7 @@ const Home = () => {
         </h1>
         <div className="w-9/12 h-auto p-6 grid grid-cols-3 gap-3  mt-4">
           {allPosts.map((item) => (
-            <PostCard item={item} />
+            <PostCard item={item} key={item._id} />
           ))}
         </div>
       </div>
