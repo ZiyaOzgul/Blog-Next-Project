@@ -3,10 +3,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import PostCard from "@/components/PostCard";
-import { getAllPostsAsync } from "@/services/posts";
+import PostCard from "../components/PostCard";
+import { getAllPostsAsync } from "../services/posts";
 import { toast } from "react-toastify";
-import { setAllPosts } from "@/redux/blogSlicer";
+import { setAllPosts } from "../redux/blogSlicer";
 const Home = () => {
   const dispatch = useDispatch();
   const Loader = useSelector((state) => state.blog.componentLevelLoader);
@@ -15,6 +15,7 @@ const Home = () => {
 
   useEffect(() => {
     handleGetAllPosts();
+    console.log("Load all posts");
   }, []);
 
   const handleGetAllPosts = async () => {
@@ -60,7 +61,7 @@ const Home = () => {
         </h1>
         <div className="w-9/12 h-auto p-6 grid grid-cols-3 gap-3  mt-4">
           {allPosts.map((item) => (
-            <PostCard item={item} />
+            <PostCard item={item} key={item._id} />
           ))}
         </div>
       </div>
