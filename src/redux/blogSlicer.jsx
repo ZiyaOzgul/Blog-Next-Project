@@ -18,8 +18,8 @@ export const blogSlice = createSlice({
     isLogged: Cookies.get("blog-token") ? true : false,
     posts: [],
     currentPost: [],
-
-    //delete
+    userDetails: [],
+    userPosts: [],
   },
   reducers: {
     setComponentLevelLoader: (state, action) => {
@@ -47,6 +47,12 @@ export const blogSlice = createSlice({
     setCurrentPost: (state, action) => {
       state.currentPost = action.payload;
     },
+    setUserPosts: (state, action) => {
+      state.userPosts = action.payload;
+    },
+    setUserDetails: (state, action) => {
+      state.userDetails = action.payload;
+    },
   },
 });
 
@@ -58,5 +64,7 @@ export const {
   setUserLog,
   setAllPosts,
   setCurrentPost,
+  setUserDetails,
+  setUserPosts,
 } = blogSlice.actions;
 export default blogSlice.reducer;

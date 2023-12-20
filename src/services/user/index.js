@@ -1,11 +1,12 @@
 "use client";
+
 import Cookies from "js-cookie";
 
-// ! add new post
-export const addNewPost = async (formData) => {
+export const addUserDetails = async (formData) => {
   console.log("Add new post req came");
+
   try {
-    const res = await fetch(`/api/add-note`, {
+    const res = await fetch(`/api/user/add-user-details`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -20,13 +21,16 @@ export const addNewPost = async (formData) => {
   }
 };
 
-// ! get all posts
+// ? Get usersPosts
 
-export const getAllPostsAsync = async () => {
-  console.log("all posts req");
+export const getUserPosts = async (userID) => {
   try {
-    const res = await fetch(`/api/posts/get-all-posts`, {
+    const res = await fetch(`/api/user/get-users-posts?id=${userID}`, {
       method: "GET",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${Cookies.get("blog-token")}`,
+      },
       cache: "no-cache",
     });
     const responseData = res.json();
@@ -35,13 +39,17 @@ export const getAllPostsAsync = async () => {
     console.log("error", error);
   }
 };
-
-// ! get selected post
-
-export const getSelectedPostAsync = async (postID) => {
-  console.log("selected post req");
+// ?Get usersDetails
+export const getUserDetails = async (userID) => {
   try {
-    const res = await fetch(`/api/posts/get-current-post?id=${postID}`);
+    const res = await fetch(`/api/user/get-users-details?id=${userID}`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${Cookies.get("blog-token")}`,
+      },
+      cache: "no-cache",
+    });
     const responseData = res.json();
     return responseData;
   } catch (error) {
