@@ -31,7 +31,7 @@ const Home = () => {
 
   return (
     <div className="w-full h-auto flex flex-col items-center justify-start mt-4">
-      <div className="w-11/12 h-65v items-center justify-center relative bg-red-400 group rounded-xl overflow-hidden cursor-pointer">
+      <div className="w-11/12 h-65v items-center justify-center relative bg-red-400 group rounded-xl overflow-hidden cursor-pointer z-0">
         <img
           src="https://assets-global.website-files.com/6467d96400e84f307e2196ef/6467d96400e84f307e21a8d7_Best%20Photography%20Blogs%20-%20Wrapbook%20-%20We%20Eat%20Together.jpeg"
           alt=""

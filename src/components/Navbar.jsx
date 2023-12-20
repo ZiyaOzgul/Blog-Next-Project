@@ -11,7 +11,7 @@ import Cookies from "js-cookie";
 import ComponentLevelLoader from "./componentLevelLoader/ComponentLevelLoader";
 import { toast } from "react-toastify";
 import { PencilIcon } from "@heroicons/react/24/solid";
-
+import { UilSignOutAlt, UilUser } from "@iconscout/react-unicons";
 const Navbar = () => {
   const [currentPage, setCurrentPage] = useState();
 
@@ -22,6 +22,7 @@ const Navbar = () => {
   const currentUser = useSelector((state) => state.blog.user);
   const userLog = useSelector((state) => state.blog.isLogged);
   const Loader = useSelector((state) => state.blog.componentLevelLoader);
+  const [hover, setHover] = useState(false);
 
   useEffect(() => {
     setCurrentPage(pathName);
@@ -40,10 +41,13 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full h-10v sm:block z-20  flex bg-white opacity-80 relative">
-      <div className="w-full h-full flex  justify-center p-6">
+    <div className="w-full h-10v sm:block z-20  flex bg-white  relative   ">
+      <div className="w-full h-full flex  justify-center p-6 ">
         <div className="w-full flex justify-between space-x-4">
-          <div className="flex-1 flex flex-col items-center justify-start">
+          <div
+            className="flex-1 flex flex-col items-center justify-start cursor-pointer hover:scale-105 ease-in-out duration-300 "
+            onClick={() => router.push("/")}
+          >
             <i className="font-extrabold text-4xl text-neutral-900">
               <i className="text-5xl text-purple-600">Ziya's </i>
               Blog
@@ -109,7 +113,10 @@ const Navbar = () => {
           )} */}
           {userLog ? (
             <div className="flex flex-1 items-center justify-end">
-              <div className="w-8/12 flex items-center justify-center sm:space-x-6">
+              <div
+                className="w-8/12 flex items-center justify-center sm:space-x-6 relative "
+                onMouseEnter={() => setHover(true)}
+              >
                 <div
                   className="flex items-center justify-center space-x-2 border border-purple-400/30 p-2 rounded-lg group hover:border-purple-400  hover:bg-purple-500 hover:text-white hover:shadow-xl shadow-purple-300 transition-all ease-in duration-300 cursor-pointer  "
                   onClick={() => router.push("/add-note")}
@@ -119,10 +126,43 @@ const Navbar = () => {
                     Add Post
                   </p>
                 </div>
-                <div className="h-auto flex flex-col items-center justify-center group ">
+                <div
+                  className={`h-auto flex
+                      flex-col items-center justify-center group `}
+                >
                   <div className="flex items-center justify-center sm:space-x-2 cursor-pointer group relative">
                     <PersonIcon className="text-xl" />
                     <p className="font-medium text-lg">{currentUser.name}</p>
+                  </div>
+                  <div
+                    className={`w-40 max-w-[400] bg-white absolute top-12 rigt-0 rounded-lg overflow-hidden flex items-start justify-start  z-20 ${
+                      hover ? "flex" : "hidden"
+                    } `}
+                    onMouseEnter={() => setHover(true)}
+                    onMouseLeave={() => setHover(false)}
+                  >
+                    <div className=" w-full h-auto flex flex-col items-center justify-start ">
+                      <div
+                        onClick={() =>
+                          router.push(`/profile/${currentUser.id}`)
+                        }
+                        className="w-full h-5v flex items-center justify-start group/item border  hover:bg-purple-600 ease-in-out duration-300 space-x-2 cursor-pointer p-1"
+                      >
+                        <UilUser className="w-10 h-10 text-purple-600 group-hover/item:text-white ease-in-out duration-300" />
+                        <p className="text-sm text-purple-600 group-hover/item:text-white group-hover/item:translate-x-2 transition-alll ease-in-out duration-300">
+                          Profile
+                        </p>
+                      </div>
+                      <div
+                        onClick={() => handleLogOut()}
+                        className="w-full h-5v flex items-center justify-start group/item  hover:bg-purple-600 ease-in-out duration-300 space-x-2 cursor-pointer p-1"
+                      >
+                        <UilSignOutAlt className="w-10 h-10 text-purple-600 group-hover/item:text-white ease-in-out duration-300" />
+                        <p className="text-sm text-purple-600 group-hover/item:text-white group-hover/item:translate-x-2 transition-alll ease-in-out duration-300">
+                          Log Out
+                        </p>
+                      </div>
+                    </div>
                   </div>
                   {/* <div className="opacity-0 group-hover:opacity-100 mt-4  w-full h-15v  flex flex-col items-start justify-start space-y-1 z-10">
                     <button className="w-full h-5v bg-gray-100 border-none hover:bg-purple-500 hover:border border-purple-400 hover:text-white hover:shadow-md shadow-purple-300 transition-all ease-in duration-300">
