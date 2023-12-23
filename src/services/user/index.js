@@ -39,6 +39,7 @@ export const getUserPosts = async (userID) => {
     console.log("error", error);
   }
 };
+
 // ?Get usersDetails
 export const getUserDetails = async (userID) => {
   try {
@@ -49,6 +50,25 @@ export const getUserDetails = async (userID) => {
         Authorization: `Bearer ${Cookies.get("blog-token")}`,
       },
       cache: "no-cache",
+    });
+    const responseData = res.json();
+    return responseData;
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
+// ? delete post on DB
+
+export const deletePostOnDB = async (postID) => {
+  console.log("delete req gone", postID);
+  try {
+    const res = await fetch(`/api/user/delete-post?postId=${postID}`, {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${Cookies.get("blog-token")}`,
+      },
     });
     const responseData = res.json();
     return responseData;

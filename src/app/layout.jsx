@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <ReduxProvider>
-        <body className={inter.className}>
+        <body className={inter.className + "font-helvetica"}>
           <Navbar />
           <section>{children}</section>
           <Footer />

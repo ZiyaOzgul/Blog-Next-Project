@@ -21,35 +21,9 @@ const page = () => {
   };
 
   return (
-    <div className="relative">
-      <div className="overflow-hidden">
-        <div className="flex">
-          {slides.map((slide, index) => (
-            <div
-              key={index}
-              className={`w-full transition-transform transform ${
-                index === currentSlide ? "translate-x-0" : "translate-x-full"
-              }`}
-            >
-              {/* Your slide content goes here */}
-              <img src={slide} alt={`Slide ${index + 1}`} className="w-full" />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <button
-        className="absolute top-1/2 left-4 transform -translate-y-1/2"
-        onClick={prevSlide}
-      >
-        Previous
-      </button>
-      <button
-        className="absolute top-1/2 right-4 transform -translate-y-1/2"
-        onClick={nextSlide}
-      >
-        Next
-      </button>
+    <div className="w-full h-100v flex flex-col space-y-6 items-center justify-center">
+      <h1 className="text-6xl font-helvetica">Helvetica font Test</h1>
+      <h1 className="font-Arial text-6xl">Arial font Test</h1>
     </div>
   );
 };

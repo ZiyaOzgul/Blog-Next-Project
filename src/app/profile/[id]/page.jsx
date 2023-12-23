@@ -25,7 +25,12 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { addUserDetails, getUserDetails, getUserPosts } from "@/services/user";
+import {
+  addUserDetails,
+  deletePostOnDB,
+  getUserDetails,
+  getUserPosts,
+} from "@/services/user";
 import { toast } from "react-toastify";
 import { PulseLoader } from "react-spinners";
 const page = ({ params }) => {
@@ -41,6 +46,12 @@ const page = ({ params }) => {
   const [profileImageShow, setProfileImageShow] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [profileModal, setProfileModal] = useState({ show: false, img: "" });
+
+  const [userUpdate, setUserUpdate] = useState({
+    profileDetails: "",
+
+    profileImg: "",
+  });
 
   useEffect(() => {
     handleGetUserDetails(userID);
@@ -81,11 +92,7 @@ const page = ({ params }) => {
   };
 
   const formik = useFormik({
-    initialValues: {
-      profileDetails: "",
-      birthDate: "",
-      profileImg: "",
-    },
+    initialValues: userUpdate,
     onSubmit: (e) => {
       const userDetailsForm = {
         userID: userID,
@@ -154,8 +161,39 @@ const page = ({ params }) => {
       dispatch(setPageLevelLoading(false));
     } else {
       toast.error(userDetails.message, { position: toast.POSITION.TOP_RIGHT });
+      router.reload(window.location.pathname);
     }
   };
+
+  // ? handleDelete post
+  const handleDeletePost = async (postID) => {
+    dispatch(
+      setComponentLevelLoader({ loading: true, id: postID, type: "delete" })
+    );
+    const requestResponse = await deletePostOnDB(postID);
+    if (requestResponse.success) {
+      toast.success(requestResponse.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      dispatch(setComponentLevelLoader({ loading: false, id: "", type: "" }));
+      const userPosts = await getUserPosts(userID);
+      dispatch(setUserPosts(userPosts.data));
+    } else {
+      toast.error(requestResponse.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      dispatch(setComponentLevelLoader({ loading: false, id: "", type: "" }));
+    }
+  };
+
+  const handleUpdate = (user) => {
+    setUserUpdate({
+      profileDetails: user.profileDetails,
+      profileImg: user.profileImg,
+    });
+    setShowModal(true);
+  };
+
   if (PageLoader) {
     return (
       <div className="w-full min-h-screen flex justify-center items-center">
@@ -235,13 +273,19 @@ const page = ({ params }) => {
                   />
                 </div>
                 <div className="w-1/5 h-full flex flex-col items-end justify-start space-y-2">
-                  <div className="w-full flex items-center justify-center group/item space-x-2 cursor-pointer ">
+                  <div
+                    className="w-full flex items-center justify-center group/item space-x-2 cursor-pointer "
+                    onClick={() => handleUpdate(item)}
+                  >
                     <UilCloudUpload className="w-10 h-10 text-purple-500 group-hover/item:text-white group-hover/item:bg-purple-600 transition-all ease-in-out duration-300 rounded-xl" />
                     <p className="text-purple-500 text-base  group-hover/item:translate-x-2 transition-all ease-in-out duration-300 rounded-xl">
                       Update
                     </p>
                   </div>
-                  <div className="w-full flex items-center justify-center group/item space-x-2 cursor-pointer ">
+                  <div
+                    className="w-full flex items-center justify-center group/item space-x-2 cursor-pointer "
+                    onClick={() => handleDeletePost(item._id)}
+                  >
                     <UilTrash className="w-10 h-10 text-red-400 group-hover/item:text-white group-hover/item:bg-red-600 transition-all ease-in-out duration-300 rounded-xl" />
                     <p className="text-red-400 text-base  group-hover/item:translate-x-2 transition-all ease-in-out duration-300 rounded-lg">
                       Delete

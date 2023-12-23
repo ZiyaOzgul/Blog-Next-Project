@@ -7,6 +7,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        Arial: ["Arial", "sans-serif"],
+        helvetica: ["Helvetica", "sans-serif"],
+      },
       height: {
         "5v": "5vh",
         "10v": "10vh",
