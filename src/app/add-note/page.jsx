@@ -178,6 +178,7 @@ const page = () => {
                       </p>
                       <input
                         placeholder={"Enter Post Title"}
+                        autoComplete="off"
                         type={"text"}
                         name="entryTitle"
                         id="entryTitle"
@@ -209,6 +210,7 @@ const page = () => {
                       </p>
                       <input
                         placeholder={"Enter Your description"}
+                        autoComplete="off"
                         type="text"
                         name="entryDesc"
                         id="entryDesc"
@@ -232,25 +234,26 @@ const page = () => {
                         className={` pt-0 pr-2 pb-0 pl-2 absolute -mt-3 mr-0 mb-0 ml-2 font-medium  bg-white ${
                           formik.touched.entryDetail &&
                           Boolean(formik.errors.entryDetail)
-                            ? "text-purple-500"
+                            ? "text-purple-400"
                             : "text-neutral-600"
                         }`}
                       >
-                        Post Details
+                        Product Desctiption
                       </p>
-                      <input
-                        placeholder={"Enter Your description"}
+                      <textarea
+                        placeholder={"Details"}
+                        autoComplete="off"
                         type="text"
                         name="entryDetail"
                         id="entryDetail"
-                        className="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mr-0 mt-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
+                        className=" border placeholder-gray-400 focus:outline-none focus:border-black w-full max-h-32 pt-4 pr-4 pb-4 pl-4 mr-0 mt-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
                         value={formik.values.entryDetail}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
                       {formik.touched.entryDetail &&
                       Boolean(formik.errors.entryDetail) ? (
-                        <div className="mt-1 text-sm text-purple-600">
+                        <div className="mt-1 text-sm text-purple-500">
                           {formik.errors.entryDetail}
                         </div>
                       ) : null}
