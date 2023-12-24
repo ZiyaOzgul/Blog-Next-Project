@@ -311,10 +311,12 @@ const page = ({ params }) => {
                 }
               />
             </div>
-            <h1 className="w-full text-lg text-neutral-900 mt-2">
+            <h1 className="w-full text-xl font-semibold text-neutral-900 mt-2">
               {currentUser.name}
             </h1>
-            <p className="text-neutral-800 text-sm mt-2">{currentUser.email}</p>
+            <p className="text-neutral-800 text-lg font-medium mt-2">
+              {currentUser.email}
+            </p>
           </div>
         </div>
         {/* modal */}
